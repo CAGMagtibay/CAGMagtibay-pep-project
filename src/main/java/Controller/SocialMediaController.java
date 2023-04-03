@@ -1,5 +1,7 @@
 package Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -16,8 +18,15 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
-        app.get("example-endpoint", this::exampleHandler);
-
+        // app.get("example-endpoint", this::exampleHandler);
+        app.post("/register", this::postNewUserHandler);                            // Req. 1 (new User registration) endpoint
+        app.post("/login", this::postLoginHandler);                                 // Req. 2 (process User logins) endpoint
+        app.post("/messages", this::postNewMessagesHandler);                        // Req. 3 (process new messages) endpoint
+        app.get("/messages", this::getAllMessagesHandler);                          // Req. 4 (get all messages) endpoint
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);             // Req. 5 (get message by ID) endpoint
+        app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);       // Req. 6 (delete message by ID) endpoint
+        app.patch("/messages/{message_id}", this::updateMessageByIdHandler);        // Req. 7 (update message by ID) endpoint
+        app.get("/accounts/{account_id}/messages", this::getMessagesByUserHandler); // Req. 8 (get all messages by user) endpoint
         return app;
     }
 
@@ -29,5 +38,30 @@ public class SocialMediaController {
         context.json("sample text");
     }
 
+    /**
+     * Requirement 1 Handler: Process new User registrations
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void postNewUserHandler(Context context) throws JsonProcessingException {
 
+    }
+
+    /**
+     * Requirement 2 Handler: Process User logins
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void postLoginHandler(Context context) throws JsonProcessingException {
+
+    }
+
+    /**
+     * Requirement 3 Handler: Process new messages
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void postNewMessagesHandler(Context context) throws JsonProcessingException {
+
+    }
 }
