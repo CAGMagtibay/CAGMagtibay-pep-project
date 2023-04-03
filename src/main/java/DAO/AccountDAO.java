@@ -21,9 +21,11 @@ public class AccountDAO {
             }
 
             // check if username doesn't already exist
-            String databaseCheck = "SELECT * from account WHERE username = (?);";
+            String databaseCheck = "SELECT count(*) from account WHERE username = (?);";
             PreparedStatement checkStatement = connection.prepareStatement(databaseCheck);
+            
             checkStatement.setString(1, account.getUsername());
+            
             ResultSet checkResultSet = checkStatement.executeQuery();
             if (checkResultSet.next()) {
                 throw new SQLException("Username already exists.");
