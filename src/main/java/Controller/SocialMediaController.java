@@ -1,6 +1,7 @@
 package Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -44,7 +45,7 @@ public class SocialMediaController {
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
     private void postNewUserHandler(Context context) throws JsonProcessingException {
-
+        ObjectMapper mapper = new ObjectMapper();
     }
 
     /**
@@ -62,6 +63,51 @@ public class SocialMediaController {
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
     private void postNewMessagesHandler(Context context) throws JsonProcessingException {
+
+    }
+
+    /**
+     * Requirement 4 Handler: Retrieve all messages
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void getAllMessagesHandler(Context context) throws JsonProcessingException {
+
+    }
+
+    /**
+     * Requirement 5 Handler: Retrieve a message by its ID
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void getMessageByIdHandler(Context context) throws JsonProcessingException {
+
+    }
+
+    /**
+     * Requirement 6 Handler: Delete a message identified by its ID
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void deleteMessageByIdHandler(Context context) throws JsonProcessingException {
+
+    }
+    
+    /**
+     * Requirement 7 Handler: Update a message text identified by its ID
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void updateMessageByIdHandler(Context context) throws JsonProcessingException {
+
+    }
+
+    /**
+     * Requirement 8 Handler: Retrieve all messages written by a particular user
+     * @param context
+     * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
+     */
+    private void getMessagesByUserHandler(Context context) throws JsonProcessingException {
 
     }
 }
