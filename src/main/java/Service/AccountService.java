@@ -25,4 +25,11 @@ public class AccountService {
         // System.out.println(newAccount.toString());
         return newAccount;
     }
+
+    /**
+     * TO-DO: Use AccountDAO to validate an Account
+     */
+    public Account validateAccount(Account account) {
+        return accountDAO.validateAccount(account);
+    }
 }
