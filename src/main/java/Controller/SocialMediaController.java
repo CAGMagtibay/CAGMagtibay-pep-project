@@ -70,8 +70,15 @@ public class SocialMediaController {
     private void postNewUserHandler(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account user = mapper.readValue(context.body(), Account.class);
-        // Author addedUser = accountService.addUser(user);
-
+        Account addedUser = accountService.addAccount(user);
+        //System.out.println(addedUser.toString());
+        if (addedUser != null) {
+            context.status(200); 
+            context.json(mapper.writeValueAsString(addedUser));
+        }
+        else {
+            context.status(400);
+        }
     }
 
     /**

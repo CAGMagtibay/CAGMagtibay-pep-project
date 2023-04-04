@@ -12,4 +12,17 @@ public class AccountService {
     public AccountService() {
         accountDAO = new AccountDAO();
     }
+
+    public AccountService(AccountDAO accountDAO) {
+        this.accountDAO = accountDAO;
+    }
+
+    /**
+     * TO-DO: Use AccountDAO to add an Account
+     */
+    public Account addAccount(Account account) {
+        Account newAccount = accountDAO.insertAccount(account);
+        // System.out.println(newAccount.toString());
+        return newAccount;
+    }
 }
