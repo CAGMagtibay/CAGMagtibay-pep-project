@@ -13,13 +13,13 @@ public class AccountDAO {
     public Account insertAccount(Account account) {
         Connection connection = ConnectionUtil.getConnection();
         try {
-            if (account.getUsername() == null || account.getUsername().replaceAll("\\s", "") == "") {       // check if username is blank
+            if (account.getUsername() == null || account.getUsername().replaceAll("\\s", "") == "") { // check if username is blank
                 // System.out.println("Username is blank.");
-                throw new SQLException("Username must not be blank.");                                                 // throw exception and return null if so
+                throw new SQLException("Username must not be blank.");                                           // throw exception and return null if so
             }
-            else if (account.getPassword().length() < 4) { 
-                // System.out.println("Password is under 4 characters.");                                                     // check if password is at least 4 characters long
-                throw new SQLException("Password must be at least 4 characters long.");                                // throw exception and return null if not
+            else if (account.getPassword().length() < 4) {                                                              // check if password is at least 4 characters long
+                // System.out.println("Password is under 4 characters.");                                                     
+                throw new SQLException("Password must be at least 4 characters long.");                          // throw exception and return null if not
             }
 
             // check if username doesn't already exist

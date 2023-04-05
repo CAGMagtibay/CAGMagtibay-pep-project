@@ -127,7 +127,17 @@ public class SocialMediaController {
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
     private void postNewMessagesHandler(Context context) throws JsonProcessingException {
-
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(context.body(), Message.class);
+        Message addedMessage = messageService.addMessage(message);
+        //System.out.println(addedMessage.toString());
+        if (addedMessage != null) {
+            context.status(200); 
+            context.json(mapper.writeValueAsString(addedMessage));
+        }
+        else {
+            context.status(400);
+        }
     }
 
     /**
