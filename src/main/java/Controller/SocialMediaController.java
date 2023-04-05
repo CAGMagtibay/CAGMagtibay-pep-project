@@ -154,7 +154,8 @@ public class SocialMediaController {
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
     private void getAllMessagesHandler(Context context) throws JsonProcessingException {
-
+        context.status(200);
+        context.json(messageService.getAllMessages());
     }
 
     /**

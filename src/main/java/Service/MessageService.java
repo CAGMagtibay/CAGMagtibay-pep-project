@@ -1,5 +1,7 @@
 package Service;
 
+import java.util.List;
+
 import DAO.MessageDAO;
 import Model.Message;
 
@@ -28,9 +30,9 @@ public class MessageService {
     /**
      * TO-DO: Use MessageDAO to retrieve all Messages
      */
-    //public List<Message> getAllMessages() {
-
-    //}
+    public List<Message> getAllMessages() {
+        return messageDAO.getAllMessages();
+    }
 
     /**
      * TO-DO: Use MessageDAO to delete a Message identified by a Message ID
