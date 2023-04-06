@@ -35,6 +35,13 @@ public class MessageService {
     }
 
     /**
+     * TO-DO: Use MessageDAO to retrieve a Message identified by a Message ID
+     */
+    public Message getMessageById(int id) {
+        return messageDAO.getMessageById(id);
+    } 
+
+    /**
      * TO-DO: Use MessageDAO to delete a Message identified by a Message ID
      */
     //public Message deleteMessage(int id) {
