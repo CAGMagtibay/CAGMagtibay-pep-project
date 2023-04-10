@@ -57,4 +57,11 @@ public class MessageService {
         }
         return null;
     }
+
+    /**
+     * TO-DO: Use MessageDAO to retrieve all Messages by a User
+     */
+    public List<Message> getAllMessagesByUser(int id) {
+        return messageDAO.getAllMessagesByUser(id);
+    }
 }

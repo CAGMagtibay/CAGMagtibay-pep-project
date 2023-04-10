@@ -260,6 +260,8 @@ public class SocialMediaController {
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
     private void getMessagesByUserHandler(Context context) throws JsonProcessingException {
-
+        int account_id = Integer.parseInt(context.pathParam("account_id"));
+        context.status(200);
+        context.json(messageService.getAllMessagesByUser(account_id));
     }
 }
