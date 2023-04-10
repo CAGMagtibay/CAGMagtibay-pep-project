@@ -44,9 +44,9 @@ public class MessageService {
     /**
      * TO-DO: Use MessageDAO to delete a Message identified by a Message ID
      */
-    //public Message deleteMessage(int id) {
-
-    //}
+    public Message deleteMessage(int id) {
+        return messageDAO.deleteMessageById(id);
+    }
 
     /**
      * TO-DO: Use MessageDAO to update a Message identified by a Message ID

@@ -204,6 +204,14 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         //System.out.println(context.pathParam("message_id"));
         int message_id = Integer.parseInt(context.pathParam("message_id"));
+        Message deletedMessage = messageService.getMessageById(message_id);
+        context.status(200);
+        if (deletedMessage == null) {                                              // if message doesn't exist,
+            context.json("");                                                   // response body is empty
+        }
+        else {
+            context.json(mapper.writeValueAsString(deletedMessage));               // response body is message
+        }
     }
     
     /**

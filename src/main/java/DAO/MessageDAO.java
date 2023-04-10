@@ -106,4 +106,33 @@ public class MessageDAO {
         }
         return null;
     }
+
+    /**
+     * TO-DO: Delete a message by id
+     */
+    public Message deleteMessageById(int id) {
+        Connection connection = ConnectionUtil.getConnection();
+        
+        try {
+            String sql = "DELETE FROM message WHERE message_id = (?);";
+            
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Message message = new Message(resultSet.getInt("message_id"), resultSet.getInt("posted_by"),
+                resultSet.getString("message_text"), resultSet.getLong("time_posted_epoch"));
+                return message;
+            }
+            else {
+                throw new SQLException("Message does not exist.");
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }
