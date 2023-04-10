@@ -135,4 +135,35 @@ public class MessageDAO {
         }
         return null;
     }
+
+    /**
+     * TO-DO: Update message text identified by a message id
+     */
+    public Message updateMessage(int id, Message message) {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            if (message.getMessage_text() == null || message.getMessage_text().replaceAll("\\s", "") == "") {   // check if message text is blank
+                throw new SQLException("Message text must not be blank");                                                  // throw exception and return null if so
+            }
+            else if (message.getMessage_text().length() > 254) {
+                throw new SQLException("Message text must be under 255 characters.");
+            }
+            
+            // checks pass => update database
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, message.getMessage_text());
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
+
+            Message updatedMessage = getMessageById(id);
+            return updatedMessage;
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

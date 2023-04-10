@@ -51,5 +51,10 @@ public class MessageService {
     /**
      * TO-DO: Use MessageDAO to update a Message identified by a Message ID
      */
-    
+    public Message updateMessage(int id, Message message) {
+        if (messageDAO.getMessageById(id) != null) {
+            return messageDAO.updateMessage(id, message);
+        }
+        return null;
+    }
 }
