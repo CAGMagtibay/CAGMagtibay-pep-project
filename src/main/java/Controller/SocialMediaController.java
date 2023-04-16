@@ -64,20 +64,20 @@ public class SocialMediaController {
      *   The response status should be 200 OK, which is the default. The new account should be persisted to the database.
      * - If the registration is not successful, the response status should be 400. (Client error)
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void postNewUserHandler(Context context) throws JsonProcessingException {
+    private void postNewUserHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Account user = mapper.readValue(context.body(), Account.class);
-        Account addedUser = accountService.addAccount(user);
+        Account user = mapper.readValue(ctx.body(), Account.class);
+        Account addedUser = accountService.addAccount(user);                        // use accountService to persist user to database
         //System.out.println(addedUser.toString());
-        if (addedUser != null) {
-            context.status(200); 
-            context.json(mapper.writeValueAsString(addedUser));
+        if (addedUser != null) {                                                    // if user is successfully created and persisted to database
+            ctx.status(200);                                                   // response status is 200 OK
+            ctx.json(mapper.writeValueAsString(addedUser));                         // response body is user as String
         }
-        else {
-            context.status(400);
+        else {                                                                      // user is not persisted to database
+            ctx.status(400);                                                   // response status is 400 ERROR
         }
     }
 
@@ -94,19 +94,19 @@ public class SocialMediaController {
      *   The response status should be 200 OK, which is the default.
      * - If the login is not successful, the response status should be 401. (Unauthorized)
      *
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void postLoginHandler(Context context) throws JsonProcessingException {
+    private void postLoginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Account account = mapper.readValue(context.body(), Account.class);
-        Account checkedAccount = accountService.validateAccount(account);
-        if (checkedAccount != null) {
-            context.status(200);
-            context.json(mapper.writeValueAsString(checkedAccount));
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account checkedAccount = accountService.validateAccount(account);           // use accountService to select database records that match login details
+        if (checkedAccount != null) {                                               // if user is found in database
+            ctx.status(200);                                                   // response status is 200 OK
+            ctx.json(mapper.writeValueAsString(checkedAccount));                    // response body is checked user as String
         }
         else {
-            context.status(401);
+            ctx.status(401);                                                   // response status is 401 Unauthorized
         }
     }
 
@@ -123,20 +123,20 @@ public class SocialMediaController {
      *   The new message should be persisted to the database.
      * - If the creation of the message is not successful, the response status should be 400. (Client error)
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void postNewMessagesHandler(Context context) throws JsonProcessingException {
+    private void postNewMessagesHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(), Message.class);
-        Message addedMessage = messageService.addMessage(message);
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message addedMessage = messageService.addMessage(message);                      // user messageService to persist message to database
         //System.out.println(addedMessage.toString());
-        if (addedMessage != null) {
-            context.status(200); 
-            context.json(mapper.writeValueAsString(addedMessage));
+        if (addedMessage != null) {                                                     // message is successfully persisted to database
+            ctx.status(200);                                                       // response status is 200 OK
+            ctx.json(mapper.writeValueAsString(addedMessage));                          // response body is persisted message as String
         }
-        else {
-            context.status(400);
+        else {                                                                          // message is not persisted to database
+            ctx.status(400);                                                       // response status is 400 ERROR
         }
     }
 
@@ -150,12 +150,12 @@ public class SocialMediaController {
      *   It is expected for the list to simply be empty if there are no messages. 
      *   The response status should always be 200, which is the default.
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void getAllMessagesHandler(Context context) throws JsonProcessingException {
-        context.status(200);
-        context.json(messageService.getAllMessages());
+    private void getAllMessagesHandler(Context ctx) throws JsonProcessingException {
+        ctx.status(200);                                                                 // response status is 200 OK
+        ctx.json(messageService.getAllMessages());                                       // use messageService to get all messages in database and populate response body
     }
 
     /**
@@ -168,20 +168,20 @@ public class SocialMediaController {
      *   It is expected for the response body to simply be empty if there is no such message. 
      *   The response status should always be 200, which is the default.
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void getMessageByIdHandler(Context context) throws JsonProcessingException {
+    private void getMessageByIdHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         //System.out.println(context.pathParam("message_id"));
-        int message_id = Integer.parseInt(context.pathParam("message_id"));
-        Message returnedMessage = messageService.getMessageById(message_id);
-        context.status(200);
-        if (returnedMessage == null) {                                              // if message doesn't exist,
-            context.json("");                                                   // response body is empty
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message returnedMessage = messageService.getMessageById(message_id);    // use messageService to retrieve message
+        ctx.status(200);
+        if (returnedMessage == null) {                                          // if message doesn't exist,
+            ctx.json("");                                                   // response body is empty
         }
         else {
-            context.json(mapper.writeValueAsString(returnedMessage));               // response body is message
+            ctx.json(mapper.writeValueAsString(returnedMessage));               // response body is message
         }
     }
 
@@ -197,20 +197,20 @@ public class SocialMediaController {
      * - If the message did not exist, the response status should be 200, but the response body should be empty. 
      *   This is because the DELETE verb is intended to be idempotent, ie, multiple calls to the DELETE endpoint should respond with the same type of response.
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void deleteMessageByIdHandler(Context context) throws JsonProcessingException {
+    private void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         //System.out.println(context.pathParam("message_id"));
-        int message_id = Integer.parseInt(context.pathParam("message_id"));
-        Message deletedMessage = messageService.getMessageById(message_id);
-        context.status(200);
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message deletedMessage = messageService.getMessageById(message_id);     // use messageService to retrieve message
+        ctx.status(200);
         if (deletedMessage == null) {                                              // if message doesn't exist,
-            context.json("");                                                   // response body is empty
+            ctx.json("");                                                   // response body is empty
         }
         else {
-            context.json(mapper.writeValueAsString(deletedMessage));               // response body is message
+            ctx.json(mapper.writeValueAsString(deletedMessage));               // response body is message
         }
     }
     
@@ -227,22 +227,22 @@ public class SocialMediaController {
      *   The message existing on the database should have the updated message_text.
      * - If the update of the message is not successful for any reason, the response status should be 400. (Client error)
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void updateMessageByIdHandler(Context context) throws JsonProcessingException {
+    private void updateMessageByIdHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Message message = mapper.readValue(context.body(), Message.class);
+        Message message = mapper.readValue(ctx.body(), Message.class);
         //System.out.println(message.toString());
-        int message_id = Integer.parseInt(context.pathParam("message_id"));
-        Message updatedMessage = messageService.updateMessage(message_id, message);
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message updatedMessage = messageService.updateMessage(message_id, message);     // use messageService to update message_text
         //System.out.println(updatedMessage.toString());
-        if (updatedMessage == null) {
-            context.status(400);
+        if (updatedMessage == null) {                                                   // if message_id does not exist
+            ctx.status(400);                                                        // response status is 400 ERROR
         }
-        else {
-            context.status(200);
-            context.json(mapper.writeValueAsString(updatedMessage));
+        else {                                                                          // message is successfully updated
+            ctx.status(200);                                                        // response status is 200 OK
+            ctx.json(mapper.writeValueAsString(updatedMessage));                        // response body is updated message as String
         }
     }
 
@@ -256,12 +256,12 @@ public class SocialMediaController {
      *   It is expected for the list to simply be empty if there are no messages. 
      *   The response status should always be 200, which is the default.
      * 
-     * @param context
+     * @param ctx
      * @throws JsonProcessingException will be thrown if there is an issue converting JSON into an object
      */
-    private void getMessagesByUserHandler(Context context) throws JsonProcessingException {
-        int account_id = Integer.parseInt(context.pathParam("account_id"));
-        context.status(200);
-        context.json(messageService.getAllMessagesByUser(account_id));
+    private void getMessagesByUserHandler(Context ctx) throws JsonProcessingException {
+        int account_id = Integer.parseInt(ctx.pathParam("account_id"));
+        ctx.status(200);                                                            // response status is 200 OK
+        ctx.json(messageService.getAllMessagesByUser(account_id));                      // use messageService to retrieve all messages identified by posted_by and populate response body
     }
 }
